@@ -118,25 +118,45 @@ export default function Presentation({ slides }: PresentationProps) {
         />
       </div>
 
-      <div className="relative w-full h-full flex items-center justify-center p-8">
-        <AnimatePresence initial={false} custom={direction} mode="wait">
-          <motion.div
-            key={currentSlide}
-            custom={direction}
-            variants={variants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{
-              x: { type: "spring", stiffness: 400, damping: 40 },
-              opacity: { duration: 0.4 },
-              filter: { duration: 0.4 }
-            }}
-            className="absolute w-full max-w-6xl h-full max-h-[900px] flex items-center justify-center"
-          >
-            {slides[currentSlide]}
-          </motion.div>
-        </AnimatePresence>
+      {/* Mobile Touch Navigation Zones */}
+      <div 
+        className="absolute left-0 top-0 w-[15%] max-w-[100px] h-full z-40 cursor-pointer"
+        onClick={(e) => {
+          e.stopPropagation();
+          initAudio();
+          paginate(-1);
+        }}
+      />
+      <div 
+        className="absolute right-0 top-0 w-[15%] max-w-[100px] h-full z-40 cursor-pointer"
+        onClick={(e) => {
+          e.stopPropagation();
+          initAudio();
+          paginate(1);
+        }}
+      />
+
+      <div className="relative w-full h-full flex items-center justify-center p-8 pointer-events-none">
+        <div className="pointer-events-auto w-full h-full flex items-center justify-center">
+          <AnimatePresence initial={false} custom={direction} mode="wait">
+            <motion.div
+              key={currentSlide}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{
+                x: { type: "spring", stiffness: 400, damping: 40 },
+                opacity: { duration: 0.4 },
+                filter: { duration: 0.4 }
+              }}
+              className="absolute w-full max-w-6xl h-full max-h-[900px] flex items-center justify-center"
+            >
+              {slides[currentSlide]}
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
 
       {/* Spotlight Menu Overlay */}
