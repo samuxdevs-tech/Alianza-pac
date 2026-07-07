@@ -131,32 +131,34 @@ export default function Presentation({ slides }: PresentationProps) {
         <Menu size={24} />
       </button>
 
-      {/* Explicit Navigation Arrows */}
-      {currentSlide > 0 && (
+      {/* Explicit Navigation Arrows (Bottom Center) */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 z-40">
         <button 
-          className="absolute left-4 md:left-12 top-1/2 -translate-y-1/2 w-12 h-12 md:w-16 md:h-16 z-40 flex items-center justify-center bg-white/5 hover:bg-white/15 border border-white/10 backdrop-blur-md text-white rounded-full transition-all shadow-xl"
+          className={`w-14 h-14 flex items-center justify-center bg-white/5 hover:bg-white/15 border border-white/10 backdrop-blur-md text-white rounded-full transition-all shadow-xl ${currentSlide === 0 ? 'opacity-30 cursor-not-allowed' : 'opacity-100'}`}
           onClick={(e) => {
             e.stopPropagation();
-            initAudio();
-            paginate(-1);
+            if (currentSlide > 0) {
+              initAudio();
+              paginate(-1);
+            }
           }}
         >
           <ChevronLeft size={32} />
         </button>
-      )}
 
-      {currentSlide < slides.length - 1 && (
         <button 
-          className="absolute right-4 md:right-12 top-1/2 -translate-y-1/2 w-12 h-12 md:w-16 md:h-16 z-40 flex items-center justify-center bg-white/5 hover:bg-white/15 border border-white/10 backdrop-blur-md text-white rounded-full transition-all shadow-xl"
+          className={`w-14 h-14 flex items-center justify-center bg-white/5 hover:bg-white/15 border border-white/10 backdrop-blur-md text-white rounded-full transition-all shadow-xl ${currentSlide === slides.length - 1 ? 'opacity-30 cursor-not-allowed' : 'opacity-100'}`}
           onClick={(e) => {
             e.stopPropagation();
-            initAudio();
-            paginate(1);
+            if (currentSlide < slides.length - 1) {
+              initAudio();
+              paginate(1);
+            }
           }}
         >
           <ChevronRight size={32} />
         </button>
-      )}
+      </div>
 
       <div className="relative w-full h-full flex items-center justify-center p-8 pointer-events-none">
         <div className="pointer-events-auto w-full h-full flex items-center justify-center">
