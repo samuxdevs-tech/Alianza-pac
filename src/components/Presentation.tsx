@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { ChevronLeft, ChevronRight, Menu } from "lucide-react";
 
 interface PresentationProps {
   slides: React.ReactNode[];
@@ -118,23 +119,44 @@ export default function Presentation({ slides }: PresentationProps) {
         />
       </div>
 
-      {/* Mobile Touch Navigation Zones */}
-      <div 
-        className="absolute left-0 top-0 w-[15%] max-w-[100px] h-full z-40 cursor-pointer"
+      {/* Floating Menu Button for Mobile & Desktop */}
+      <button
+        className="absolute top-6 left-6 z-50 w-12 h-12 bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/10 rounded-full flex items-center justify-center text-white transition-colors"
         onClick={(e) => {
           e.stopPropagation();
           initAudio();
-          paginate(-1);
+          setIsMenuOpen(true);
         }}
-      />
-      <div 
-        className="absolute right-0 top-0 w-[15%] max-w-[100px] h-full z-40 cursor-pointer"
-        onClick={(e) => {
-          e.stopPropagation();
-          initAudio();
-          paginate(1);
-        }}
-      />
+      >
+        <Menu size={24} />
+      </button>
+
+      {/* Explicit Navigation Arrows */}
+      {currentSlide > 0 && (
+        <button 
+          className="absolute left-4 md:left-12 top-1/2 -translate-y-1/2 w-12 h-12 md:w-16 md:h-16 z-40 flex items-center justify-center bg-white/5 hover:bg-white/15 border border-white/10 backdrop-blur-md text-white rounded-full transition-all shadow-xl"
+          onClick={(e) => {
+            e.stopPropagation();
+            initAudio();
+            paginate(-1);
+          }}
+        >
+          <ChevronLeft size={32} />
+        </button>
+      )}
+
+      {currentSlide < slides.length - 1 && (
+        <button 
+          className="absolute right-4 md:right-12 top-1/2 -translate-y-1/2 w-12 h-12 md:w-16 md:h-16 z-40 flex items-center justify-center bg-white/5 hover:bg-white/15 border border-white/10 backdrop-blur-md text-white rounded-full transition-all shadow-xl"
+          onClick={(e) => {
+            e.stopPropagation();
+            initAudio();
+            paginate(1);
+          }}
+        >
+          <ChevronRight size={32} />
+        </button>
+      )}
 
       <div className="relative w-full h-full flex items-center justify-center p-8 pointer-events-none">
         <div className="pointer-events-auto w-full h-full flex items-center justify-center">
